@@ -51,22 +51,30 @@ var ulWrapper = "#bloodhound-pages";
                     // need a new listener for this
                     hideElements(listItems);
                 }
-                if (filter.length < 2 ) {
+                if (filter.length < 3 ) {
                     return;
                 }
 
+                var lowerCaseFilter = filter.toLowerCase();
+
+
                 $(listItems).each(function( index ) {
                     var liElement = $(this);
-                    //var text = liElement.text();
-                    var text = liElement.attr('data-text');
-                    //text = text.trim();
 
-                    if (text.toLowerCase().indexOf(filter.toLowerCase()) !== -1) {
+                    var text = liElement.attr('data-text');
+                    var showTrails = false;
+
+                    if (text.toLowerCase().indexOf(lowerCaseFilter) !== -1) {
                         liElement.addClass('show');
-                        showBloodHoundTrail(liElement);
+                        showTrails = true;
+                        showBloodHoundStartTrail(liElement);
                     }
                     else {
                         liElement.removeClass('show');
+                    }
+
+                    if (showTrails === true) {
+                        showBloodHoundExitTrail(liElement, lowerCaseFilter);
                     }
                 });
 
@@ -156,13 +164,33 @@ var ulWrapper = "#bloodhound-pages";
 
     /**
      *
-     * Adds css to display the full trail a.k.a exit path of current element
+     * Adds css to display the full backwards trail. That is where the hound started
      *
      * @param element the element to show the trail for
      */
-    function showBloodHoundTrail(element) {
+    function showBloodHoundStartTrail(element) {
         element.parents().addClass('show');
     }
+
+
+    /**
+     *
+     * Adds css to display the extra trails of victims (siblings to victim giving hit)
+     *
+     * @param element the element to show the trail for
+     */
+    function showBloodHoundExitTrail(element, filter) {
+
+        var listItems = element.find("li");
+
+        $(listItems).each(function( index ) {
+            var liElement = $(this);
+            var text = liElement.attr('data-text');
+            liElement.css('display', 'inherit');
+        });
+
+    }
+
 
 
     function hideElements(list) {
