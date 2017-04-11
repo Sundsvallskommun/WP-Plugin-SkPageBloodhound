@@ -142,8 +142,10 @@ class SK_Page_Bloodhound {
 
                 $parent_post_title = get_the_title($parent_id);
             }
+
             $response['list'] = $this->get_page_list();
-            $response['parent_title'] = $parent_post_title;
+            $response['parent_title'] = html_entity_decode($parent_post_title);
+            $response['parent_id'] = $parent_id;
 
             wp_send_json( $response );
         }
