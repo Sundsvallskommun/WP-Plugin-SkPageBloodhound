@@ -24,7 +24,6 @@ var ulWrapper = "#bloodhound-pages";
 
             $(inputElement).after(response.list);
             bloodHound = $("#page-bloodhound-input");
-            console.log(response);
             bloodHoundPages = $(ulWrapper);
             $(inputElement).val(response.parent_id);
             bloodHound.val(response.parent_title);
